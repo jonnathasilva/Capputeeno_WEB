@@ -3,7 +3,7 @@ import { FiSearch, FiShoppingBag } from "react-icons/fi";
 export const Header = () => {
   return (
     <header className="bg-white">
-      <div className="container mx-auto p-4 flex justify-between items-center">
+      <div className="container mx-auto py-4 flex justify-between items-center">
         <h1 className="text-4xl font-bold text-gray-700 font-SairaStencilOne">
           capputeeno
         </h1>
