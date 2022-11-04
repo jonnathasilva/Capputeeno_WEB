@@ -40,7 +40,10 @@ export const Pagination = () => {
 
       <div className="flex flex-wrap">
         {currentItens.map((product) => (
-          <div key={product._id} className="w-[calc(100%/4)] h-96 px-4">
+          <div
+            key={product._id}
+            className=" h-96 px-4 w-full sm:w-[calc(100%/2)] md:w-[calc(100%/3)] lg:w-[calc(100%/4)] "
+          >
             <img
               src={product.img}
               alt={product.title}

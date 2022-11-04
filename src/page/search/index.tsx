@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-import { Header, Pagination } from "./components";
+import { Header, Pagination } from "@/components";
 
 interface Product {
   img: string;
@@ -11,22 +12,29 @@ interface Product {
   _id: string;
 }
 
-export const App = () => {
+export const Search = () => {
+  const [searchParams] = useSearchParams();
   const [productSearch, setProductSearch] = useState<Product[]>([]);
 
-  const getSearch = (search: any) => {
+  console.log(searchParams.get("q"));
+
+  const getSearch = () => {
     axios<Product>({
       method: "get",
       baseURL: import.meta.env.VITE_URL,
-      url: `/find/${search}`,
+      url: `/find/${searchParams.get("q")}`,
     }).then(({ data }) => {
       console.log(data);
     });
   };
 
+  useEffect(() => {
+    getSearch();
+  }, [searchParams.get("q")]);
+
   return (
     <>
-      <Header onSuccese={getSearch} />
+      <Header />
       <main className="container mx-auto py-8 space-y-7">
         <div className="flex justify-between">
           <ul className="flex space-x-10">

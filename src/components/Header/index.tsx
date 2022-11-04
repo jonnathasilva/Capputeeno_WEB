@@ -1,12 +1,16 @@
 import { FiSearch, FiShoppingBag } from "react-icons/fi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const Header = ({ onSuccese }: any) => {
+export const Header = () => {
+  const navegate = useNavigate();
   const [search, setSearch] = useState<string>("");
 
   const submint = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSuccese(search);
+
+    navegate(`/search?q=${search}`);
+    setSearch("");
   };
 
   return (
