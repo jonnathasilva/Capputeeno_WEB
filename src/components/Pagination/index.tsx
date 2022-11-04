@@ -24,7 +24,7 @@ export const Pagination = () => {
   const getProducts = () => {
     axios<Product[]>({
       method: "get",
-      baseURL: "http://localhost:5000",
+      baseURL: import.meta.env.VITE_URL,
     }).then(({ data }) => {
       setProduct(data);
     });
@@ -44,7 +44,7 @@ export const Pagination = () => {
             <img
               src={product.img}
               alt={product.title}
-              className="w-full h-72 rounded-t-lg"
+              className="w-full h-72 rounded-t-lg object-cover"
             />
 
             <div className="bg-white px-3 py-2 text-black-400 font-light ">

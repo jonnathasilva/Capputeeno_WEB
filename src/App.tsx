@@ -1,9 +1,32 @@
+import { useState } from "react";
+import axios from "axios";
+
 import { Header, Pagination } from "./components";
 
+interface Product {
+  img: string;
+  title: string;
+  price: string;
+  description: string;
+  _id: string;
+}
+
 export const App = () => {
+  const [productSearch, setProductSearch] = useState<Product[]>([]);
+
+  const getSearch = (search: any) => {
+    axios<Product>({
+      method: "get",
+      baseURL: import.meta.env.VITE_URL,
+      url: `/find/${search}`,
+    }).then(({ data }) => {
+      console.log(data);
+    });
+  };
+
   return (
     <>
-      <Header />
+      <Header onSuccese={getSearch} />
       <main className="container mx-auto py-8 space-y-7">
         <div className="flex justify-between">
           <ul className="flex space-x-10">

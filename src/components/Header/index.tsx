@@ -1,6 +1,14 @@
 import { FiSearch, FiShoppingBag } from "react-icons/fi";
+import { useState } from "react";
 
-export const Header = () => {
+export const Header = ({ onSuccese }: any) => {
+  const [search, setSearch] = useState<string>("");
+
+  const submint = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSuccese(search);
+  };
+
   return (
     <header className="bg-white">
       <div className="container mx-auto py-4 flex justify-between items-center">
@@ -9,7 +17,7 @@ export const Header = () => {
         </h1>
 
         <div className="flex items-center space-x-6">
-          <form>
+          <form onSubmit={submint}>
             <label htmlFor="search" className="text-sm font-medium sr-only ">
               Busca
             </label>
@@ -23,6 +31,8 @@ export const Header = () => {
                 type="search"
                 name="search"
                 id="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Procurando por algo específico?"
                 className="text-sm p-3 pr-8 bg-gray-500 text-black-300 w-80 rounded-lg focus:outline-none focus:shadow"
               />
