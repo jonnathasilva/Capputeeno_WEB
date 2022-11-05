@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { ButtonPagination } from "@/components";
 
@@ -11,8 +10,11 @@ interface Product {
   _id: string;
 }
 
-export const Pagination = () => {
-  const [product, setProduct] = useState<Product[]>([]);
+interface Props {
+  product: Product[];
+}
+
+export const Pagination: React.FC<Props> = ({ product }) => {
   const [itensPerPage, setItensPerPage] = useState<number>(12);
   const [currentPage, setCurrentPage] = useState<number>(0);
 
@@ -20,19 +22,6 @@ export const Pagination = () => {
   const startIndex = currentPage * itensPerPage;
   const endIndex = startIndex + itensPerPage;
   const currentItens = product.slice(startIndex, endIndex);
-
-  const getProducts = () => {
-    axios<Product[]>({
-      method: "get",
-      baseURL: import.meta.env.VITE_URL,
-    }).then(({ data }) => {
-      setProduct(data);
-    });
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
 
   return (
     <section className="flex flex-col space-y-6">

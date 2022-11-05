@@ -16,15 +16,13 @@ export const Search = () => {
   const [searchParams] = useSearchParams();
   const [productSearch, setProductSearch] = useState<Product[]>([]);
 
-  console.log(searchParams.get("q"));
-
   const getSearch = () => {
-    axios<Product>({
+    axios<Product[]>({
       method: "get",
       baseURL: import.meta.env.VITE_URL,
       url: `/find/${searchParams.get("q")}`,
     }).then(({ data }) => {
-      console.log(data);
+      setProductSearch(data);
     });
   };
 
@@ -35,6 +33,7 @@ export const Search = () => {
   return (
     <>
       <Header />
+
       <main className="container mx-auto py-8 space-y-7">
         <div className="flex justify-between">
           <ul className="flex space-x-10">
@@ -58,7 +57,7 @@ export const Search = () => {
           </form>
         </div>
 
-        <Pagination />
+        <Pagination product={productSearch} />
       </main>
     </>
   );

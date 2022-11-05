@@ -1,6 +1,32 @@
 import { Header, Pagination } from "@/components";
 
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+interface Product {
+  img: string;
+  title: string;
+  price: string;
+  description: string;
+  _id: string;
+}
+
 export const Home = () => {
+  const [product, setProduct] = useState<Product[]>([]);
+
+  const getProducts = () => {
+    axios<Product[]>({
+      method: "get",
+      baseURL: import.meta.env.VITE_URL,
+    }).then(({ data }) => {
+      setProduct(data);
+    });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <>
       <Header />
@@ -27,7 +53,7 @@ export const Home = () => {
           </form>
         </div>
 
-        <Pagination />
+        <Pagination product={product} />
       </main>
     </>
   );
