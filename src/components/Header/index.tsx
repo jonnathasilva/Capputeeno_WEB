@@ -9,7 +9,7 @@ export const Header = () => {
   const submint = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    navegate(`/search?q=${search}`);
+    navegate(`/?page=0&q=${search}`);
     setSearch("");
   };
 

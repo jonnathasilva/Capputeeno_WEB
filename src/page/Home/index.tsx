@@ -2,8 +2,9 @@ import { Header, Pagination } from "@/components";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-interface Product {
+interface Item {
   img: string;
   title: string;
   price: string;
@@ -11,21 +12,47 @@ interface Product {
   _id: string;
 }
 
+interface Product {
+  currentItens: Item[];
+  page: number;
+}
+
 export const Home = () => {
-  const [product, setProduct] = useState<Product[]>([]);
+  const [searchParams] = useSearchParams();
+  const [product, setProduct] = useState<Product>({} as Product);
+  const [currentPage, setCurrentPage] = useState<number>(
+    Number(searchParams.get("page")) || 0
+  );
 
   const getProducts = () => {
-    axios<Product[]>({
+    axios<Product>({
       method: "get",
       baseURL: import.meta.env.VITE_URL,
+      params: { offset: currentPage },
+    }).then(({ data }) => {
+      setProduct(data);
+    });
+  };
+
+  const getSearch = () => {
+    axios<Product>({
+      method: "get",
+      baseURL: import.meta.env.VITE_URL,
+      url: "/search",
+      params: { offset: currentPage, q: searchParams.get("q") },
     }).then(({ data }) => {
       setProduct(data);
     });
   };
 
   useEffect(() => {
+    if (searchParams.get("q")) {
+      console.log(searchParams.get("q"));
+      return getSearch();
+    }
+
     getProducts();
-  }, []);
+  }, [searchParams.get("q"), searchParams.get("page")]);
 
   return (
     <>
@@ -53,7 +80,11 @@ export const Home = () => {
           </form>
         </div>
 
-        <Pagination product={product} />
+        <Pagination
+          currentItens={product?.currentItens}
+          page={product.page}
+          setCurrentPage={setCurrentPage}
+        />
       </main>
     </>
   );
