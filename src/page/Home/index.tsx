@@ -47,7 +47,6 @@ export const Home = () => {
 
   useEffect(() => {
     if (searchParams.get("q")) {
-      console.log(searchParams.get("q"));
       return getSearch();
     }
 
@@ -56,7 +55,8 @@ export const Home = () => {
 
   return (
     <>
-      <Header />
+      <Header setCurrentPage={setCurrentPage} />
+
       <main className="container mx-auto py-8 space-y-7">
         <div className="flex justify-between">
           <ul className="flex space-x-10">

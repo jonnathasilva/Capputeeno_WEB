@@ -1,4 +1,5 @@
 import { ButtonPagination } from "@/components";
+import { Link } from "react-router-dom";
 
 interface Item {
   img: string;
@@ -29,17 +30,21 @@ export const Pagination: React.FC<Product> = ({
             key={product._id}
             className=" h-96 px-4 w-full sm:w-[calc(100%/2)] md:w-[calc(100%/3)] lg:w-[calc(100%/4)] "
           >
-            <img
-              src={product.img}
-              alt={product.title}
-              className="w-full h-72 rounded-t-lg object-cover cursor-pointer"
-            />
+            <Link to={`/product/${product._id}`} className="cursor-pointer">
+              <img
+                src={product.img}
+                alt={product.title}
+                className="w-full h-72 rounded-t-lg object-cover"
+              />
 
-            <div className="bg-white px-3 py-2 text-black-400 font-light cursor-pointer">
-              <p className="border-b border-gray-100 pb-2">{product.title}</p>
+              <div className="bg-white px-3 py-2 text-black-400 font-light">
+                <p className="border-b border-gray-100 pb-2">{product.title}</p>
 
-              <p className="pt-2 font-bold to-black-500">R$ {product.price}</p>
-            </div>
+                <p className="pt-2 font-bold to-black-500">
+                  R$ {product.price}
+                </p>
+              </div>
+            </Link>
           </div>
         ))}
       </div>

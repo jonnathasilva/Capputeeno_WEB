@@ -2,14 +2,19 @@ import { FiSearch, FiShoppingBag } from "react-icons/fi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Header = () => {
+interface Props {
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const Header: React.FC<Props> = ({ setCurrentPage }) => {
   const navegate = useNavigate();
   const [search, setSearch] = useState<string>("");
 
   const submint = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    navegate(`/?page=0&q=${search}`);
+    setCurrentPage(0);
+    navegate(`/?q=${search}`);
     setSearch("");
   };
 
