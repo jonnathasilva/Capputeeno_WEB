@@ -19,7 +19,7 @@ export const Header: React.FC<Props> = ({ setCurrentPage }) => {
   };
 
   return (
-    <header className="bg-white">
+    <header className="bg-white-500">
       <div className="container mx-auto py-4 flex justify-between items-center">
         <h1 className="text-4xl font-bold text-gray-700 font-SairaStencilOne">
           capputeeno

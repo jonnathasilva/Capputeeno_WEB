@@ -1,19 +1,30 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Route, Routes, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 
 import { Home } from "./Home";
 import { Product } from "./Product";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/product/:id",
-    element: <Product />,
-  },
-]);
+import { Header } from "@/components";
 
 export const Router = () => {
-  return <RouterProvider router={router} />;
+  const [searchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState<number>(
+    Number(searchParams.get("page")) || 0
+  );
+
+  return (
+    <>
+      <Header setCurrentPage={setCurrentPage} />
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          }
+        />
+
+        <Route path="/product/:id" element={<Product />} />
+      </Routes>
+    </>
+  );
 };

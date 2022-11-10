@@ -1,4 +1,4 @@
-import { Header, Pagination } from "@/components";
+import { Pagination } from "@/components";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -17,12 +17,14 @@ interface Product {
   page: number;
 }
 
-export const Home = () => {
+interface Props {
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
   const [searchParams] = useSearchParams();
   const [product, setProduct] = useState<Product>({} as Product);
-  const [currentPage, setCurrentPage] = useState<number>(
-    Number(searchParams.get("page")) || 0
-  );
 
   const getProducts = () => {
     axios<Product>({
@@ -55,8 +57,6 @@ export const Home = () => {
 
   return (
     <>
-      <Header setCurrentPage={setCurrentPage} />
-
       <main className="container mx-auto py-8 space-y-7">
         <div className="flex justify-between">
           <ul className="flex space-x-10">
