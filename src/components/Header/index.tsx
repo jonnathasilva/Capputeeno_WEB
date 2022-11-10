@@ -19,14 +19,14 @@ export const Header: React.FC<Props> = ({ setCurrentPage }) => {
   };
 
   return (
-    <header className="bg-white-500">
+    <header className="bg-white-500 px-4 md:px-0">
       <div className="container mx-auto py-4 flex justify-between items-center">
         <h1 className="text-4xl font-bold text-gray-700 font-SairaStencilOne">
           capputeeno
         </h1>
 
         <div className="flex items-center space-x-6">
-          <form onSubmit={submint}>
+          <form onSubmit={submint} className="hidden md:block">
             <label htmlFor="search" className="text-sm font-medium sr-only ">
               Busca
             </label>
@@ -47,6 +47,8 @@ export const Header: React.FC<Props> = ({ setCurrentPage }) => {
               />
             </div>
           </form>
+
+          <FiSearch className="text-gray-400 block md:hidden" size={21} />
 
           <FiShoppingBag size={24} />
         </div>

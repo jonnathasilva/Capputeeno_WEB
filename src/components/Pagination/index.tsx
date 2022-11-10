@@ -28,7 +28,7 @@ export const Pagination: React.FC<Product> = ({
         {currentItens?.map((product) => (
           <div
             key={product._id}
-            className=" h-96 px-4 w-full sm:w-[calc(100%/2)] md:w-[calc(100%/3)] lg:w-[calc(100%/4)] "
+            className=" h-96 px-0 w-full sm:w-[calc(100%/2)] sm:px-2 md:w-[calc(100%/3)] lg:px-4 lg:w-[calc(100%/4)]  "
           >
             <Link to={`/product/${product._id}`} className="cursor-pointer ">
               <img

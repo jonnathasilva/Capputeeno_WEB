@@ -33,14 +33,14 @@ export const Product = () => {
 
   return (
     <>
-      <main className="container mx-auto py-8 space-y-7">
+      <main className="container mx-auto py-8 space-y-7 px-4 lg:px-0">
         <div className="w-7 h-7">
           <Link to="/">
             <TbArrowBackUp className="text-gray-400 border-2 border-gray-400 rounded-full p-1 w-full h-full" />
           </Link>
         </div>
 
-        <div className="flex space-x-8">
+        <div className="flex flex-col space-y-8 lg:space-x-8 lg:flex-row ">
           <div className="flex-[2] h-[580px]">
             <img
               src={product.img}
@@ -73,7 +73,7 @@ export const Product = () => {
               <p className="break-all">{product.description}</p>
             </div>
 
-            <button className="flex justify-center items-center bg-blue text-white-400 w-[448px] h-11 space-x-3.5 rounded">
+            <button className="flex justify-center items-center bg-blue text-white-400 w-full h-11 space-x-3.5 rounded">
               <FiShoppingBag />
 
               <span className="font-medium uppercase">

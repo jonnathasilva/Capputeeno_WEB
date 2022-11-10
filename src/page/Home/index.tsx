@@ -2,7 +2,7 @@ import { Pagination } from "@/components";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 interface Item {
   img: string;
@@ -57,17 +57,19 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
 
   return (
     <>
-      <main className="container mx-auto py-8 space-y-7">
-        <div className="flex justify-between">
-          <ul className="flex space-x-10">
+      <main className="container mx-auto p-8 space-y-7 lg:py-8">
+        <div className="flex flex-col justify-between space-y-10 lg:space-y-0 lg:flex-row">
+          <ul className="flex space-x-4 md:space-x-10">
             <li className="text-black-400 font-semibold uppercase">
-              Todos os produtos
+              <Link to="/">Todos os produtos</Link>
             </li>
+
             <li className="text-black-300 uppercase">Camisetas</li>
+
             <li className="text-black-300 uppercase">Canecas</li>
           </ul>
 
-          <form>
+          <form className="flex justify-end">
             <select
               defaultValue="0"
               className="bg-transparent outline-none text-black-300 w-44 rounded-xl"
