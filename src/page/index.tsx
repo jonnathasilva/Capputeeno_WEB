@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { Home } from "./Home";
 import { Product } from "./Product";
+import { Cart } from "./Cart";
 import { Header } from "@/components";
 
 interface Item {
@@ -63,6 +64,8 @@ export const Router = () => {
           path="/product/:id"
           element={<Product getAllCart={getAllCart} />}
         />
+
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </>
   );

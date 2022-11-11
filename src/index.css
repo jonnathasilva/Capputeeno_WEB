@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
   font-family: "Saira", sans-serif;
   background-color: theme("colors.backgroundColor");
