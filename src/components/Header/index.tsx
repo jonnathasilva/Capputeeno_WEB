@@ -1,6 +1,8 @@
 import { FiSearch, FiShoppingBag } from "react-icons/fi";
-import { useState } from "react";
+import { useState, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { HeaderForm } from "@/components";
 
 interface Props {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
@@ -9,13 +11,24 @@ interface Props {
 export const Header: React.FC<Props> = ({ setCurrentPage }) => {
   const navegate = useNavigate();
   const [search, setSearch] = useState<string>("");
+  const [isModal, setIsModal] = useState<boolean>(false);
 
-  const submint = (e: React.FormEvent<HTMLFormElement>) => {
+  const submint = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     setCurrentPage(0);
+    setIsModal(false);
     navegate(`/?q=${search}`);
     setSearch("");
+  };
+
+  const modal = (e: MouseEvent) => {
+    if (
+      (e.target as Element).id !== "search" &&
+      (e.target as Element).id !== "FiSearch"
+    ) {
+      setIsModal(false);
+    }
   };
 
   return (
@@ -26,31 +39,34 @@ export const Header: React.FC<Props> = ({ setCurrentPage }) => {
         </h1>
 
         <div className="flex items-center space-x-6">
-          <form onSubmit={submint} className="hidden md:block">
-            <label htmlFor="search" className="text-sm font-medium sr-only ">
-              Busca
-            </label>
+          <div className="hidden md:block">
+            <HeaderForm
+              submint={submint}
+              search={search}
+              setSearch={setSearch}
+            />
+          </div>
 
-            <div className="relative">
-              <div className="absolute bottom-[13px] right-[14.83px]">
-                <FiSearch className="text-gray-400" size={19} />
-              </div>
-
-              <input
-                type="search"
-                name="search"
-                id="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Procurando por algo específico?"
-                className="text-sm p-3 pr-8 bg-gray-500 text-black-300 w-80 rounded-lg focus:outline-none focus:shadow"
-              />
-            </div>
-          </form>
-
-          <FiSearch className="text-gray-400 block md:hidden" size={21} />
+          <FiSearch
+            className="text-gray-400 block md:hidden"
+            size={21}
+            onClick={() => setIsModal(true)}
+          />
 
           <FiShoppingBag size={24} />
+        </div>
+      </div>
+
+      <div
+        className={
+          isModal
+            ? "flex justify-center pt-5 fixed top-0 left-0 h-full w-full backdrop-blur-sm"
+            : "hidden"
+        }
+        onClick={modal}
+      >
+        <div id="formSearch">
+          <HeaderForm submint={submint} search={search} setSearch={setSearch} />
         </div>
       </div>
     </header>
