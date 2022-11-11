@@ -57,7 +57,7 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
 
   return (
     <>
-      <main className="container mx-auto p-8 space-y-7 lg:py-8">
+      <main className="container mx-auto p-8 space-y-7  md:px-0 lg:py-8">
         <div className="flex flex-col justify-between space-y-10 lg:space-y-0 lg:flex-row">
           <ul className="flex space-x-4 md:space-x-10">
             <li className="text-black-400 font-semibold uppercase">

@@ -1,19 +1,51 @@
 import { Route, Routes, useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 import { Home } from "./Home";
 import { Product } from "./Product";
 import { Header } from "@/components";
 
+interface Item {
+  img: string;
+  title: string;
+  price: string;
+  description: string;
+  _id: string;
+}
+
+interface Cart {
+  _id: string;
+  product: Item[];
+}
+
 export const Router = () => {
   const [searchParams] = useSearchParams();
+  const [cart, setCart] = useState<Cart>({} as Cart);
   const [currentPage, setCurrentPage] = useState<number>(
     Number(searchParams.get("page")) || 0
   );
 
+  const getAllCart = () => {
+    axios<Cart>({
+      method: "get",
+      baseURL: import.meta.env.VITE_URL,
+      url: "/cartall",
+    }).then(({ data }) => {
+      setCart(data);
+    });
+  };
+
+  useEffect(() => {
+    getAllCart();
+  }, []);
+
   return (
     <>
-      <Header setCurrentPage={setCurrentPage} />
+      <Header
+        setCurrentPage={setCurrentPage}
+        cartLength={cart?.product?.length}
+      />
 
       <Routes>
         <Route

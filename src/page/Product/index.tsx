@@ -34,10 +34,14 @@ export const Product = () => {
   return (
     <>
       <main className="container mx-auto py-8 space-y-7 px-4 lg:px-0">
-        <div className="w-7 h-7">
+        <div className="w-24 h-7 flex justify-between items-center">
           <Link to="/">
             <TbArrowBackUp className="text-gray-400 border-2 border-gray-400 rounded-full p-1 w-full h-full" />
           </Link>
+
+          <span className="text-gray-400 text-lg order-1 font-medium capitalize">
+            Voltar
+          </span>
         </div>
 
         <div className="flex flex-col space-y-8 lg:space-x-8 lg:flex-row ">

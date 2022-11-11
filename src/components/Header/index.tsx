@@ -6,9 +6,10 @@ import { HeaderForm } from "@/components";
 
 interface Props {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  cartLength: number;
 }
 
-export const Header: React.FC<Props> = ({ setCurrentPage }) => {
+export const Header: React.FC<Props> = ({ setCurrentPage, cartLength }) => {
   const navegate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [isModal, setIsModal] = useState<boolean>(false);
@@ -53,7 +54,17 @@ export const Header: React.FC<Props> = ({ setCurrentPage }) => {
             onClick={() => setIsModal(true)}
           />
 
-          <FiShoppingBag size={24} />
+          <div className="relative">
+            <FiShoppingBag size={24} />
+
+            {cartLength > 0 ? (
+              <span className="absolute -bottom-1 -right-2 w-4 h-4 bg-red rounded-full text-center text-xs text-white-500">
+                {cartLength}
+              </span>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
 

@@ -11,7 +11,7 @@ module.exports = {
           100: "#DCE2E6",
           200: "#DEDEDE",
           300: "#E9E9F0",
-          400: "#737380",
+          400: "#617480",
           500: "#F3F5F6",
           700: "#5D5D6D",
         },
@@ -20,6 +20,7 @@ module.exports = {
           500: "#FFFFFF",
         },
         orange: "#FFA585",
+        red: "#DE3838",
         blue: "#115D8C",
         black: {
           300: "#737380",
