@@ -2,6 +2,7 @@ import { TbArrowBackUp } from "react-icons/tb";
 import { FiShoppingBag } from "react-icons/fi";
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 interface Product {
@@ -13,7 +14,11 @@ interface Product {
   category: string;
 }
 
-export const Product = () => {
+interface Props {
+  getAllCart: () => void;
+}
+
+export const Product: React.FC<Props> = ({ getAllCart }) => {
   const [product, setProduct] = useState<Product>({} as Product);
   let { id } = useParams();
 
@@ -25,6 +30,21 @@ export const Product = () => {
     }).then(({ data }) => {
       setProduct(data);
     });
+  };
+
+  const addCart = (id: string) => {
+    axios({
+      method: "post",
+      baseURL: import.meta.env.VITE_URL,
+      url: "/new",
+      data: { id },
+    })
+      .then(() => {
+        getAllCart();
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
   };
 
   useEffect(() => {
@@ -77,7 +97,10 @@ export const Product = () => {
               <p className="break-all">{product.description}</p>
             </div>
 
-            <button className="flex justify-center items-center bg-blue text-white-400 w-full h-11 space-x-3.5 rounded">
+            <button
+              className="flex justify-center items-center bg-blue text-white-400 w-full h-11 space-x-3.5 rounded"
+              onClick={() => addCart(product._id)}
+            >
               <FiShoppingBag />
 
               <span className="font-medium uppercase">

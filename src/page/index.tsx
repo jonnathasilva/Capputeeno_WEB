@@ -1,5 +1,7 @@
 import { Route, Routes, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import axios from "axios";
 
 import { Home } from "./Home";
@@ -42,6 +44,8 @@ export const Router = () => {
 
   return (
     <>
+      <ToastContainer />
+
       <Header
         setCurrentPage={setCurrentPage}
         cartLength={cart?.product?.length}
@@ -55,7 +59,10 @@ export const Router = () => {
           }
         />
 
-        <Route path="/product/:id" element={<Product />} />
+        <Route
+          path="/product/:id"
+          element={<Product getAllCart={getAllCart} />}
+        />
       </Routes>
     </>
   );
