@@ -47,7 +47,7 @@ export const Cart: React.FC<Props> = ({ card, getAllCart }) => {
           </h2>
 
           <span>
-            Total ({card?.length} produtos) <strong>R$161,00</strong>{" "}
+            Total ({card?.length} produtos) <strong>R$ {total}</strong>
           </span>
         </div>
 
