@@ -65,7 +65,10 @@ export const Router = () => {
           element={<Product getAllCart={getAllCart} />}
         />
 
-        <Route path="/cart" element={<Cart card={cart.product} />} />
+        <Route
+          path="/cart"
+          element={<Cart card={cart.product} getAllCart={getAllCart} />}
+        />
       </Routes>
     </>
   );
