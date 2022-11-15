@@ -51,6 +51,7 @@ export const Header: React.FC<Props> = ({ setCurrentPage, cartLength }) => {
           <FiSearch
             className="text-gray-400 block md:hidden"
             size={21}
+            data-testid="isModal"
             onClick={() => setIsModal(true)}
           />
 
@@ -58,7 +59,10 @@ export const Header: React.FC<Props> = ({ setCurrentPage, cartLength }) => {
             <FiShoppingBag size={24} />
 
             {cartLength > 0 ? (
-              <span className="absolute -bottom-1 -right-2 w-4 h-4 bg-red rounded-full text-center text-xs text-white-500">
+              <span
+                className="absolute -bottom-1 -right-2 w-4 h-4 bg-red rounded-full text-center text-xs text-white-500"
+                data-testid="cartVelue"
+              >
                 {cartLength}
               </span>
             ) : (
@@ -74,6 +78,7 @@ export const Header: React.FC<Props> = ({ setCurrentPage, cartLength }) => {
             ? "flex justify-center pt-5 fixed top-0 left-0 h-full w-full backdrop-blur-sm"
             : "hidden"
         }
+        data-testid="modal"
         onClick={modal}
       >
         <div id="formSearch">
