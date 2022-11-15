@@ -1,7 +1,6 @@
 import { FiSearch, FiShoppingBag } from "react-icons/fi";
 import { useState, MouseEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { HeaderForm } from "@/components";
 
@@ -55,7 +54,7 @@ export const Header: React.FC<Props> = ({ setCurrentPage, cartLength }) => {
             onClick={() => setIsModal(true)}
           />
 
-          <Link to="/cart" className="relative">
+          <Link to="/cart" className="relative" data-testid="Link">
             <FiShoppingBag size={24} />
 
             {cartLength > 0 ? (

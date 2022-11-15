@@ -25,7 +25,7 @@ interface Props {
 export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
   const [product, setProduct] = useState<Product>({} as Product);
   const [searchParams] = useSearchParams();
-  const [active, setActive] = useState<number>(1);
+  const [active, setActive] = useState<number>(0);
 
   const getProducts = () => {
     axios<Product>({
