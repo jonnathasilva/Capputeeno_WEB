@@ -5,11 +5,19 @@ import "@testing-library/jest-dom";
 import { HeaderForm } from "./index";
 
 describe("Component HeaderForm", () => {
-  it("should show the inputs", () => {
+  it("should show the input value", () => {
     const { getByDisplayValue } = render(
-      <HeaderForm search="camisa" setSearch={vi.fn()} submint={vi.fn()} />
+      <HeaderForm search="camisa" setSearch={vi.fn} submint={vi.fn} />
     );
 
     expect(getByDisplayValue("camisa")).toBeInTheDocument();
+  });
+
+  it("should not show the input value", () => {
+    const { queryByDisplayValue } = render(
+      <HeaderForm search="xícara" setSearch={vi.fn} submint={vi.fn} />
+    );
+
+    expect(queryByDisplayValue("camisa")).not.toBeInTheDocument();
   });
 });

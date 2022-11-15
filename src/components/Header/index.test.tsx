@@ -8,13 +8,13 @@ import { Header } from "./index";
 vi.mock("react-router-dom", () => ({
   ...vi.importActual("react-router-dom"),
   useNavigate: () => vi.fn(),
-  Link: "Link",
+  Link: (params: any) => <div {...params} />,
 }));
 
 describe("Component Header", () => {
   it("should show cart value", () => {
     const { getByTestId } = render(
-      <Header cartLength={1} setCurrentPage={vi.fn()} />
+      <Header cartLength={1} setCurrentPage={vi.fn} />
     );
 
     expect(getByTestId("cartVelue")).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe("Component Header", () => {
 
   it("should not show cart value", () => {
     const { queryByTestId } = render(
-      <Header cartLength={0} setCurrentPage={vi.fn()} />
+      <Header cartLength={0} setCurrentPage={vi.fn} />
     );
 
     expect(queryByTestId("cartVelue")).not.toBeInTheDocument();
@@ -30,7 +30,7 @@ describe("Component Header", () => {
 
   it("should redirect to cart page", () => {
     const { getByTestId } = render(
-      <Header cartLength={0} setCurrentPage={vi.fn()} />
+      <Header cartLength={0} setCurrentPage={vi.fn} />
     );
 
     expect(getByTestId("Link")).toHaveAttribute("to", "/cart");
@@ -38,7 +38,7 @@ describe("Component Header", () => {
 
   it("should show modal", async () => {
     const { getByTestId } = render(
-      <Header cartLength={0} setCurrentPage={vi.fn()} />
+      <Header cartLength={0} setCurrentPage={vi.fn} />
     );
 
     await userEvent.click(getByTestId("isModal"));
@@ -48,7 +48,7 @@ describe("Component Header", () => {
 
   it("should not show modal", () => {
     const { getByTestId } = render(
-      <Header cartLength={0} setCurrentPage={vi.fn()} />
+      <Header cartLength={0} setCurrentPage={vi.fn} />
     );
 
     expect(getByTestId("modal")).toHaveClass("hidden");
