@@ -20,7 +20,7 @@ interface Props {
 
 export const Product: React.FC<Props> = ({ getAllCart }) => {
   const [product, setProduct] = useState<Product>({} as Product);
-  let { id } = useParams();
+  const { id } = useParams();
 
   const getById = () => {
     axios<Product>({

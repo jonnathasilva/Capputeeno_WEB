@@ -27,14 +27,12 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
   const [searchParams] = useSearchParams();
   const [active, setActive] = useState<number>(0);
 
-  const getProducts = () => {
-    axios<Product>({
+  const getProducts = async () => {
+    await axios<Product>({
       method: "get",
       baseURL: import.meta.env.VITE_URL,
       params: { offset: currentPage },
-    }).then(({ data }) => {
-      setProduct(data);
-    });
+    }).then(({ data }) => setProduct(data));
   };
 
   const getSearch = () => {
