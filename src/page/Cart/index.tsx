@@ -67,18 +67,18 @@ export const Cart: React.FC<Props> = ({ card, getAllCart }) => {
           <div className="pb-6 border-b border-gray-100 space-y-3">
             <div className="flex justify-between text-black-400">
               <p>Subtotal de produtos</p>
-              <span>R$ {price}</span>
+              <span data-testid="subtotal">R$ {price}</span>
             </div>
 
             <div className="flex justify-between text-black-400 ">
               <p>Entrega</p>
-              <span>R$ 40,00</span>
+              <span data-testid="total delivery">R$ 40,00</span>
             </div>
           </div>
 
           <div className="flex justify-between text-black-400 mt-2">
             <p>Total</p>
-            <span>R$ {total + delivery}</span>
+            <span data-testid="total">R$ {total + delivery}</span>
           </div>
 
           <button className="bg-green w-full h-11 rounded text-white-400 font-medium uppercase">
