@@ -72,7 +72,7 @@ export const Cart: React.FC<Props> = ({ card, getAllCart }) => {
 
             <div className="flex justify-between text-black-400 ">
               <p>Entrega</p>
-              <span data-testid="total delivery">R$ 40,00</span>
+              <span>R$ 40,00</span>
             </div>
           </div>
 
