@@ -65,7 +65,7 @@ export const Product: React.FC<Props> = ({ getAllCart }) => {
         </div>
 
         <div className="flex flex-col space-y-8 lg:space-x-8 lg:flex-row ">
-          <div className="flex-[2] h-[580px]">
+          <div className="flex-1 lg:w-[640px] h-[580px]">
             <img
               src={product.img}
               alt={product.title}
@@ -73,8 +73,8 @@ export const Product: React.FC<Props> = ({ getAllCart }) => {
             />
           </div>
 
-          <div className="flex flex-1 flex-col justify-between">
-            <div>
+          <div className=" flex flex-1 flex-col justify-between lg:max-h-[546px]">
+            <div className="lg:h-[92%]">
               <p className="text-blacl-400">{product.category}</p>
 
               <h1 className="text-blacl-400 text-3xl font-light mt-3 mb-1">
@@ -94,7 +94,9 @@ export const Product: React.FC<Props> = ({ getAllCart }) => {
                 Descrição
               </div>
 
-              <p className="break-all">{product.description}</p>
+              <p className="break-all overflow-hidden h-[47%]">
+                {product.description}
+              </p>
             </div>
 
             <button
