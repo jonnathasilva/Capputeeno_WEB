@@ -1,5 +1,7 @@
 import { BsTrash } from "react-icons/bs";
-import axios from "axios";
+import { useMutation, useQueryClient } from "react-query";
+
+import { api } from "@/api/api";
 
 interface Item {
   img: string;
@@ -11,18 +13,16 @@ interface Item {
 
 interface Props {
   item: Item;
-  getAllCart: () => void;
 }
 
-export const Card: React.FC<Props> = ({ item, getAllCart }) => {
-  const deleteOneItem = (id: string) => {
-    axios({
-      method: "delete",
-      baseURL: import.meta.env.VITE_URL,
-      url: "/delete",
-      data: { id },
-    }).then(() => getAllCart());
-  };
+export const Card: React.FC<Props> = ({ item }) => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation((id: string) => api.deleteOneItem(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries("carts");
+    },
+  });
 
   return (
     <div className="flex">
@@ -41,7 +41,7 @@ export const Card: React.FC<Props> = ({ item, getAllCart }) => {
 
             <BsTrash
               className="text-red cursor-pointer"
-              onClick={() => deleteOneItem(item._id)}
+              onClick={() => mutate(item._id)}
             />
           </div>
         </div>

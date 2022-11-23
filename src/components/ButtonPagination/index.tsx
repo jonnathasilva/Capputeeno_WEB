@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 interface Props {
-  page: number;
+  page: number | undefined;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 

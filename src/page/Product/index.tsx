@@ -1,9 +1,10 @@
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { TbArrowBackUp } from "react-icons/tb";
 import { FiShoppingBag } from "react-icons/fi";
 import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
+
+import { api } from "@/api/api";
 
 interface Product {
   _id: string;
@@ -14,42 +15,28 @@ interface Product {
   category: string;
 }
 
-interface Props {
-  getAllCart: () => void;
-}
-
-export const Product: React.FC<Props> = ({ getAllCart }) => {
-  const [product, setProduct] = useState<Product>({} as Product);
+export const Product = () => {
   const { id } = useParams();
 
-  const getById = () => {
-    axios<Product>({
-      method: "get",
-      baseURL: import.meta.env.VITE_URL,
-      url: `/product/${id}`,
-    }).then(({ data }) => {
-      setProduct(data);
-    });
-  };
+  const client = useQueryClient();
 
-  const addCart = (id: string) => {
-    axios({
-      method: "post",
-      baseURL: import.meta.env.VITE_URL,
-      url: "/new",
-      data: { id },
-    })
-      .then(() => {
-        getAllCart();
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-      });
-  };
+  const { data, isLoading } = useQuery("productById", () =>
+    api.getProductById(id)
+  );
 
-  useEffect(() => {
-    getById();
-  }, []);
+  const addCartMutation = useMutation(() => api.addCart(id), {
+    onSuccess: (data) => {
+      console.log(data);
+      client.invalidateQueries("carts");
+    },
+    onError: (err: any) => {
+      toast.error(err.response.data.message);
+    },
+  });
+
+  if (isLoading) {
+    return <p>Carregando...</p>;
+  }
 
   return (
     <>
@@ -67,22 +54,22 @@ export const Product: React.FC<Props> = ({ getAllCart }) => {
         <div className="flex flex-col space-y-8 lg:space-x-8 lg:flex-row ">
           <div className="flex-1 lg:w-[640px] h-[580px]">
             <img
-              src={product.img}
-              alt={product.title}
+              src={data?.img}
+              alt={data?.title}
               className="w-full h-full object-cover"
             />
           </div>
 
           <div className=" flex flex-1 flex-col justify-between lg:max-h-[546px]">
             <div className="lg:h-[92%]">
-              <p className="text-blacl-400">{product.category}</p>
+              <p className="text-blacl-400">{data?.category}</p>
 
               <h1 className="text-blacl-400 text-3xl font-light mt-3 mb-1">
-                {product.title}
+                {data?.title}
               </h1>
 
               <span className="text-black-500 text-xl font-semibold mb-6">
-                R$ {product.price}
+                R$ {data?.price}
               </span>
 
               <p className="text-blacl-400 text-xs font-normal mb-14">
@@ -95,18 +82,20 @@ export const Product: React.FC<Props> = ({ getAllCart }) => {
               </div>
 
               <p className="break-all overflow-hidden h-[47%]">
-                {product.description}
+                {data?.description}
               </p>
             </div>
 
             <button
               className="flex justify-center items-center bg-blue text-white-400 w-full h-11 space-x-3.5 rounded"
-              onClick={() => addCart(product._id)}
+              onClick={() => addCartMutation.mutate()}
             >
               <FiShoppingBag />
 
               <span className="font-medium uppercase">
-                Adicionar ao carrinho
+                {addCartMutation.isSuccess
+                  ? "Carregando"
+                  : "Adicionar ao carrinho"}
               </span>
             </button>
           </div>

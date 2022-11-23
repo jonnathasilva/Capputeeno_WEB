@@ -1,32 +1,28 @@
 import { TbArrowBackUp } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+
 import { Card } from "@/components";
+import { api } from "@/api/api";
 
-interface Item {
-  img: string;
-  title: string;
-  price: string;
-  description: string;
-  _id: string;
-}
+export const Cart = () => {
+  const { data, isLoading } = useQuery("carts", () => api.cartAll());
 
-interface Props {
-  card: Item[];
-  getAllCart: () => void;
-}
-
-export const Cart: React.FC<Props> = ({ card, getAllCart }) => {
-  const price = card?.reduce(
+  const price = data?.product.reduce(
     (previous, current) => previous + Number(current.price),
     0
   );
 
-  const total = card?.reduce(
+  const total = data?.product.reduce(
     (previous, current) => previous + 1 * Number(current.price),
     0
   );
 
   const delivery = 40;
+
+  if (isLoading) {
+    return <p>Carregando...</p>;
+  }
 
   return (
     <main className="flex flex-col px-4 container mx-auto h-4/5 mt-10 md:px-0 md:space-x-8 md:flex-row">
@@ -47,13 +43,13 @@ export const Cart: React.FC<Props> = ({ card, getAllCart }) => {
           </h2>
 
           <span>
-            Total ({card?.length} produtos) <strong>R$ {total}</strong>
+            Total ({data?.product?.length} produtos) <strong>R$ {total}</strong>
           </span>
         </div>
 
         <div className="h-[79%] overflow-auto space-y-4">
-          {card?.map((item) => (
-            <Card item={item} key={item._id} getAllCart={getAllCart} />
+          {data?.product.map((item) => (
+            <Card item={item} key={item._id} />
           ))}
         </div>
       </section>
@@ -78,7 +74,7 @@ export const Cart: React.FC<Props> = ({ card, getAllCart }) => {
 
           <div className="flex justify-between text-black-400 mt-2">
             <p>Total</p>
-            <span data-testid="total">R$ {total + delivery}</span>
+            <span data-testid="total">R$ {total}</span>
           </div>
 
           <button className="bg-green w-full h-11 rounded text-white-400 font-medium uppercase">

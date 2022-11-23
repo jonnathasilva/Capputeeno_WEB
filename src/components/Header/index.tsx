@@ -2,17 +2,21 @@ import { FiSearch, FiShoppingBag } from "react-icons/fi";
 import { useState, MouseEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+import { useQuery } from "react-query";
+
 import { HeaderForm } from "@/components";
+import { api } from "@/api/api";
 
 interface Props {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  cartLength: number;
 }
 
-export const Header: React.FC<Props> = ({ setCurrentPage, cartLength }) => {
+export const Header: React.FC<Props> = ({ setCurrentPage }) => {
   const navegate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [isModal, setIsModal] = useState<boolean>(false);
+
+  const { data } = useQuery("carts", () => api.cartAll());
 
   const submint = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -58,16 +62,12 @@ export const Header: React.FC<Props> = ({ setCurrentPage, cartLength }) => {
           <Link to="/cart" className="relative" data-testid="Link">
             <FiShoppingBag size={24} />
 
-            {cartLength > 0 ? (
-              <span
-                className="absolute -bottom-1 -right-2 w-4 h-4 bg-red rounded-full text-center text-xs text-white-500"
-                data-testid="cartVelue"
-              >
-                {cartLength}
-              </span>
-            ) : (
-              ""
-            )}
+            <span
+              className="absolute -bottom-1 -right-2 w-4 h-4 bg-red rounded-full text-center text-xs text-white-500"
+              data-testid="cartVelue"
+            >
+              {data?.product.length === 0 ? "0" : data?.product.length}
+            </span>
           </Link>
         </div>
       </div>

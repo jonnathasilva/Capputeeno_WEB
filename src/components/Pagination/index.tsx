@@ -10,8 +10,8 @@ interface Item {
 }
 
 interface Product {
-  currentItens: Item[];
-  page: number;
+  currentItens: Item[] | undefined;
+  page: number | undefined;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 

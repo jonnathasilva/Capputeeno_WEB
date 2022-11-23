@@ -1,21 +1,9 @@
 import { Pagination } from "@/components";
+import { api } from "@/api/api";
 
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-
-interface Item {
-  img: string;
-  title: string;
-  price: string;
-  description: string;
-  _id: string;
-}
-
-interface Product {
-  currentItens: Item[];
-  page: number;
-}
 
 interface Props {
   currentPage: number;
@@ -23,36 +11,18 @@ interface Props {
 }
 
 export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
-  const [product, setProduct] = useState<Product>({} as Product);
   const [searchParams] = useSearchParams();
   const [active, setActive] = useState<number>(0);
 
-  const getProducts = async () => {
-    await axios<Product>({
-      method: "get",
-      baseURL: import.meta.env.VITE_URL,
-      params: { offset: currentPage },
-    }).then(({ data }) => setProduct(data));
-  };
+  const client = useQueryClient();
 
-  const getSearch = () => {
-    axios<Product>({
-      method: "get",
-      baseURL: import.meta.env.VITE_URL,
-      url: "/search",
-      params: { offset: currentPage, q: searchParams.get("q") },
-    }).then(({ data }) => {
-      setProduct(data);
-    });
-  };
+  const { isLoading, data } = useQuery("Products", () =>
+    api.getProduct(currentPage, searchParams.get("q"))
+  );
 
-  useEffect(() => {
-    if (searchParams.get("q")) {
-      return getSearch();
-    }
-
-    getProducts();
-  }, [searchParams.get("q"), searchParams.get("page")]);
+  if (isLoading) {
+    return <p>Carregando...</p>;
+  }
 
   return (
     <>
@@ -76,7 +46,10 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
                   ? "text-black-300 uppercase border-b-2 border-orange"
                   : "text-black-300 uppercase"
               }
-              onClick={() => setActive(1)}
+              onClick={() => {
+                setActive(1);
+                client.invalidateQueries(["Products"]);
+              }}
             >
               <Link to="/?q=camisetas">Camisetas</Link>
             </li>
@@ -87,7 +60,10 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
                   ? "text-black-300 uppercase border-b-2 border-orange"
                   : "text-black-300 uppercase"
               }
-              onClick={() => setActive(2)}
+              onClick={() => {
+                setActive(2);
+                client.invalidateQueries(["Products"]);
+              }}
             >
               <Link to="/?q=canecas">Canecas</Link>
             </li>
@@ -107,8 +83,8 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
         </div>
 
         <Pagination
-          currentItens={product?.currentItens}
-          page={product.page}
+          currentItens={data?.currentItens}
+          page={data?.page}
           setCurrentPage={setCurrentPage}
         />
       </main>
