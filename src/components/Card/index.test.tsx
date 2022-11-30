@@ -1,4 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { MemoryRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
 
 import { Card } from "./index";
@@ -13,7 +15,15 @@ describe("Component Card", () => {
   };
 
   it("should show image", () => {
-    const { getByRole } = render(<Card item={data} getAllCart={vi.fn} />);
+    const queryClient = new QueryClient();
+
+    const { getByRole } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/cart"]}>
+          <Card item={data} />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
 
     expect(getByRole("img")).toHaveAttribute("alt", "camisa");
     expect(getByRole("img")).toHaveAttribute(
@@ -23,19 +33,43 @@ describe("Component Card", () => {
   });
 
   it("should show title", () => {
-    const { getByText } = render(<Card item={data} getAllCart={vi.fn} />);
+    const queryClient = new QueryClient();
+
+    const { getByText } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/cart"]}>
+          <Card item={data} />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
 
     expect(getByText("camisa")).toBeInTheDocument();
   });
 
   it("should show description", () => {
-    const { getByText } = render(<Card item={data} getAllCart={vi.fn} />);
+    const queryClient = new QueryClient();
+
+    const { getByText } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/cart"]}>
+          <Card item={data} />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
 
     expect(getByText("Boa camisa")).toBeInTheDocument();
   });
 
   it("should show price", () => {
-    const { getByText } = render(<Card item={data} getAllCart={vi.fn} />);
+    const queryClient = new QueryClient();
+
+    const { getByText } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/cart"]}>
+          <Card item={data} />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
 
     expect(getByText("R$ 199")).toBeInTheDocument();
   });

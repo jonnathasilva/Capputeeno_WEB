@@ -1,59 +1,93 @@
-import { describe, expect, it, vi, afterEach } from "vitest";
-import { render, cleanup } from "@testing-library/react";
+import { describe, vi, expect, afterEach, beforeEach } from "vitest";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
 import { Product } from "./index";
 
-import mockedAxios, { AxiosResponse } from "axios";
+import { useProductById } from "@/hooks";
 
-vi.mock("axios");
+const mockedUseCardAll = useProductById as jest.Mock<any>;
+vi.mock("../../hooks/useProductById");
 
 describe("Page Product", () => {
-  afterEach(cleanup);
+  beforeEach(() => {
+    mockedUseCardAll.mockImplementation(() => ({ isLoading: true }));
+  });
 
-  const mAxiosResponse = {
-    data: {
-      _id: "1",
-      img: "https://localhost:3000/image",
-      title: "camisa",
-      description: "Boa camisa",
-      price: "350",
-    },
-  } as AxiosResponse;
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-  it("should mock getById", () => {
-    (mockedAxios as any).mockResolvedValue(mAxiosResponse);
+  const mockData = {
+    _id: "1",
+    img: "https://localhost:3000/image",
+    title: "camisa",
+    description: "Boa camisa",
+    price: "350",
+  };
 
-    render(
-      <MemoryRouter initialEntries={["/product/1"]}>
-        <Product getAllCart={vi.fn} />
-      </MemoryRouter>
+  it("Renders without crashing", () => {
+    const queryClient = new QueryClient();
+
+    const { getByText } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/product/1"]}>
+          <Product />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
 
-    expect(mockedAxios).toHaveBeenCalledWith({
-      method: "get",
-      baseURL: "http://localhost:5000",
-      url: "/product/undefined",
-    });
+    expect(getByText("Carregando...")).toBeInTheDocument();
+  });
+
+  it("should mock getById", () => {
+    mockedUseCardAll.mockImplementation(() => ({
+      isLoading: false,
+      data: mockData,
+    }));
+
+    const queryClient = new QueryClient();
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/product/1"]}>
+          <Product />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    // expect(mockedAxios).toHaveBeenCalledWith({
+    //   method: "get",
+    //   baseURL: "http://localhost:5000",
+    //   url: "/product/undefined",
+    // });
   });
 
   it("should mock addCart", async () => {
-    const { getByRole } = render(
-      <MemoryRouter initialEntries={["/product/1"]}>
-        <Product getAllCart={vi.fn} />
-      </MemoryRouter>
-    );
+    mockedUseCardAll.mockImplementation(() => ({
+      isLoading: false,
+      data: mockData,
+    }));
 
-    (mockedAxios as any).mockResolvedValue(mAxiosResponse);
+    const queryClient = new QueryClient();
+
+    const { getByRole } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/product/1"]}>
+          <Product />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
 
     await userEvent.click(getByRole("button"));
 
-    expect(mockedAxios).toHaveBeenCalledWith({
-      method: "post",
-      baseURL: "http://localhost:5000",
-      url: "/new",
-      data: { id: "1" },
-    });
+    // expect(mockedAxios).toHaveBeenCalledWith({
+    //   method: "post",
+    //   baseURL: "http://localhost:5000",
+    //   url: "/new",
+    //   data: { id: "1" },
+    // });
   });
 });

@@ -1,7 +1,6 @@
 import { BsTrash } from "react-icons/bs";
-import { useMutation, useQueryClient } from "react-query";
 
-import { api } from "@/api/api";
+import { useDelete } from "@/hooks";
 
 interface Item {
   img: string;
@@ -16,13 +15,7 @@ interface Props {
 }
 
 export const Card: React.FC<Props> = ({ item }) => {
-  const queryClient = useQueryClient();
-
-  const { mutate } = useMutation((id: string) => api.deleteOneItem(id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries("carts");
-    },
-  });
+  const { mutate } = useDelete();
 
   return (
     <div className="flex">

@@ -3,16 +3,13 @@ import { useSearchParams } from "react-router-dom";
 
 interface Props {
   page: number | undefined;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const ButtonPagination = ({ page, setCurrentPage }: Props) => {
+export const ButtonPagination = ({ page }: Props) => {
   const [searchParams] = useSearchParams();
   const navegate = useNavigate();
 
   const onPagination = (e: { currentTarget: { value: string } }) => {
-    setCurrentPage(Number(e.currentTarget.value));
-
     if (!searchParams.get("q")) {
       return navegate(`/?page=${e.currentTarget.value}`);
     }

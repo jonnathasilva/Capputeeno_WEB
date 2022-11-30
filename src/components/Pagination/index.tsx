@@ -12,17 +12,12 @@ interface Item {
 interface Product {
   currentItens: Item[] | undefined;
   page: number | undefined;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const Pagination: React.FC<Product> = ({
-  currentItens,
-  page,
-  setCurrentPage,
-}) => {
+export const Pagination: React.FC<Product> = ({ currentItens, page }) => {
   return (
     <section className="flex flex-col space-y-6">
-      <ButtonPagination page={page} setCurrentPage={setCurrentPage} />
+      <ButtonPagination page={page} />
 
       <div className="flex flex-wrap">
         {currentItens?.map((product) => (
@@ -49,7 +44,7 @@ export const Pagination: React.FC<Product> = ({
         ))}
       </div>
 
-      <ButtonPagination page={page} setCurrentPage={setCurrentPage} />
+      <ButtonPagination page={page} />
     </section>
   );
 };

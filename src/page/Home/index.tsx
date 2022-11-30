@@ -1,23 +1,16 @@
 import { Pagination } from "@/components";
-import { api } from "@/api/api";
+import { useProduct } from "@/hooks";
 
-import { useQuery, useQueryClient } from "react-query";
 import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 
-interface Props {
-  currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
+export const Home = () => {
   const [searchParams] = useSearchParams();
   const [active, setActive] = useState<number>(0);
 
-  const client = useQueryClient();
-
-  const { isLoading, data } = useQuery("Products", () =>
-    api.getProduct(currentPage, searchParams.get("q"))
+  const { isLoading, data } = useProduct(
+    Number(searchParams.get("page")),
+    searchParams.get("q")
   );
 
   if (isLoading) {
@@ -46,10 +39,7 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
                   ? "text-black-300 uppercase border-b-2 border-orange"
                   : "text-black-300 uppercase"
               }
-              onClick={() => {
-                setActive(1);
-                client.invalidateQueries(["Products"]);
-              }}
+              onClick={() => setActive(1)}
             >
               <Link to="/?q=camisetas">Camisetas</Link>
             </li>
@@ -60,10 +50,7 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
                   ? "text-black-300 uppercase border-b-2 border-orange"
                   : "text-black-300 uppercase"
               }
-              onClick={() => {
-                setActive(2);
-                client.invalidateQueries(["Products"]);
-              }}
+              onClick={() => setActive(2)}
             >
               <Link to="/?q=canecas">Canecas</Link>
             </li>
@@ -82,11 +69,7 @@ export const Home: React.FC<Props> = ({ currentPage, setCurrentPage }) => {
           </form>
         </div>
 
-        <Pagination
-          currentItens={data?.currentItens}
-          page={data?.page}
-          setCurrentPage={setCurrentPage}
-        />
+        <Pagination currentItens={data?.currentItens} page={data?.page} />
       </main>
     </>
   );

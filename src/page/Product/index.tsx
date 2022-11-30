@@ -1,38 +1,15 @@
-import { useQuery, useMutation, useQueryClient } from "react-query";
 import { TbArrowBackUp } from "react-icons/tb";
 import { FiShoppingBag } from "react-icons/fi";
 import { useParams, Link } from "react-router-dom";
-import { toast } from "react-toastify";
 
-import { api } from "@/api/api";
-
-interface Product {
-  _id: string;
-  img: string;
-  price: string;
-  title: string;
-  description: string;
-  category: string;
-}
+import { useAddCart, useProductById } from "@/hooks";
 
 export const Product = () => {
   const { id } = useParams();
 
-  const client = useQueryClient();
+  const { data, isLoading } = useProductById(id);
 
-  const { data, isLoading } = useQuery("productById", () =>
-    api.getProductById(id)
-  );
-
-  const addCartMutation = useMutation(() => api.addCart(id), {
-    onSuccess: (data) => {
-      console.log(data);
-      client.invalidateQueries("carts");
-    },
-    onError: (err: any) => {
-      toast.error(err.response.data.message);
-    },
-  });
+  const addCartMutation = useAddCart(id);
 
   if (isLoading) {
     return <p>Carregando...</p>;
@@ -93,7 +70,7 @@ export const Product = () => {
               <FiShoppingBag />
 
               <span className="font-medium uppercase">
-                {addCartMutation.isSuccess
+                {addCartMutation.isLoading
                   ? "Carregando"
                   : "Adicionar ao carrinho"}
               </span>

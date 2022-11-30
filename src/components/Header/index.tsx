@@ -2,26 +2,19 @@ import { FiSearch, FiShoppingBag } from "react-icons/fi";
 import { useState, MouseEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { useQuery } from "react-query";
-
 import { HeaderForm } from "@/components";
-import { api } from "@/api/api";
+import { useCarts } from "@/hooks";
 
-interface Props {
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}
-
-export const Header: React.FC<Props> = ({ setCurrentPage }) => {
+export const Header = () => {
   const navegate = useNavigate();
   const [search, setSearch] = useState<string>("");
   const [isModal, setIsModal] = useState<boolean>(false);
 
-  const { data } = useQuery("carts", () => api.cartAll());
+  const { data } = useCarts();
 
   const submint = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    setCurrentPage(0);
     setIsModal(false);
     navegate(`/?q=${search}`);
     setSearch("");

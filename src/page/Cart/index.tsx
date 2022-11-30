@@ -1,22 +1,22 @@
 import { TbArrowBackUp } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import { useQuery } from "react-query";
 
 import { Card } from "@/components";
-import { api } from "@/api/api";
+import { useCarts } from "@/hooks";
 
 export const Cart = () => {
-  const { data, isLoading } = useQuery("carts", () => api.cartAll());
+  const { data, isLoading } = useCarts();
 
   const price = data?.product.reduce(
     (previous, current) => previous + Number(current.price),
     0
   );
 
-  const total = data?.product.reduce(
-    (previous, current) => previous + 1 * Number(current.price),
-    0
-  );
+  const total =
+    data?.product.reduce(
+      (previous, current) => previous + 1 * Number(current.price),
+      0
+    ) || 0;
 
   const delivery = 40;
 
@@ -74,7 +74,7 @@ export const Cart = () => {
 
           <div className="flex justify-between text-black-400 mt-2">
             <p>Total</p>
-            <span data-testid="total">R$ {total}</span>
+            <span data-testid="total">R$ {total + delivery}</span>
           </div>
 
           <button className="bg-green w-full h-11 rounded text-white-400 font-medium uppercase">
