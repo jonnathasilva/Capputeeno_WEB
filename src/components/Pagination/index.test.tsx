@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
@@ -19,7 +19,7 @@ describe("Component Pagination", () => {
   it("should direct to product page", () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={["/"]}>
-        <Pagination currentItens={products} page={1} setCurrentPage={vi.fn} />
+        <Pagination currentItens={products} page={1} />
       </MemoryRouter>
     );
 
@@ -29,7 +29,7 @@ describe("Component Pagination", () => {
   it("should show image", () => {
     const { getByRole } = render(
       <MemoryRouter initialEntries={["/"]}>
-        <Pagination currentItens={products} page={1} setCurrentPage={vi.fn} />
+        <Pagination currentItens={products} page={1} />
       </MemoryRouter>
     );
 
@@ -43,7 +43,7 @@ describe("Component Pagination", () => {
   it("should show title", () => {
     const { getByText } = render(
       <MemoryRouter initialEntries={["/"]}>
-        <Pagination currentItens={products} page={1} setCurrentPage={vi.fn} />
+        <Pagination currentItens={products} page={1} />
       </MemoryRouter>
     );
 
@@ -53,7 +53,7 @@ describe("Component Pagination", () => {
   it("should show price", () => {
     const { getByText } = render(
       <MemoryRouter initialEntries={["/"]}>
-        <Pagination currentItens={products} page={1} setCurrentPage={vi.fn} />
+        <Pagination currentItens={products} page={1} />
       </MemoryRouter>
     );
 
