@@ -1,7 +1,7 @@
 import { TbArrowBackUp } from "react-icons/tb";
 import { Link } from "react-router-dom";
 
-import { Card } from "@/components";
+import { Card, Loading } from "@/components";
 import { useCarts } from "@/hooks";
 
 export const Cart = () => {
@@ -21,7 +21,7 @@ export const Cart = () => {
   const delivery = 40;
 
   if (isLoading) {
-    return <p>Carregando...</p>;
+    return <Loading />;
   }
 
   return (

@@ -3,6 +3,7 @@ import { FiShoppingBag } from "react-icons/fi";
 import { useParams, Link } from "react-router-dom";
 
 import { useAddCart, useProductById } from "@/hooks";
+import { Loading } from "@/components";
 
 export const Product = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ export const Product = () => {
   const addCartMutation = useAddCart(id);
 
   if (isLoading) {
-    return <p>Carregando...</p>;
+    return <Loading />;
   }
 
   return (

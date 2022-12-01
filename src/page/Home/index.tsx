@@ -1,4 +1,4 @@
-import { Pagination } from "@/components";
+import { Pagination, Loading } from "@/components";
 import { useProduct } from "@/hooks";
 
 import { useState } from "react";
@@ -14,7 +14,7 @@ export const Home = () => {
   );
 
   if (isLoading) {
-    return <p>Carregando...</p>;
+    return <Loading />;
   }
 
   return (
