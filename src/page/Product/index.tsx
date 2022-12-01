@@ -38,7 +38,7 @@ export const Product = () => {
             />
           </div>
 
-          <div className="space-y-11 flex flex-1 flex-col justify-between lg:max-h-[546px]">
+          <div className="space-y-11 flex flex-1 flex-col justify-between md:space-y-0 lg:max-h-[546px]">
             <div className="lg:h-[92%]">
               <p className="text-blacl-400">{data?.category}</p>
 
