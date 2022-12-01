@@ -18,28 +18,10 @@ describe("Page Home", () => {
     vi.clearAllMocks();
   });
 
-  const mockData = {
-    currentItens: [
-      {
-        _id: "1",
-        img: "https://localhost:3000/image",
-        title: "camisa",
-        description: "Boa camisa",
-        price: "350",
-      },
-    ],
-    page: "2",
-  };
-
-  it("must mock getProducts", () => {
-    mockedUseCardAll.mockImplementation(() => ({
-      isLoading: false,
-      data: mockData,
-    }));
-
+  it("Renders without crashing", () => {
     const queryClient = new QueryClient();
 
-    render(
+    const { getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter initialEntries={["/"]}>
           <Home />
@@ -47,35 +29,7 @@ describe("Page Home", () => {
       </QueryClientProvider>
     );
 
-    // expect(mockedAxios).toHaveBeenCalledWith({
-    //   method: "get",
-    //   baseURL: "http://localhost:5000",
-    //   params: { offset: 0 },
-    // });
-  });
-
-  it("must mock getSearch", () => {
-    mockedUseCardAll.mockImplementation(() => ({
-      isLoading: false,
-      data: mockData,
-    }));
-
-    const queryClient = new QueryClient();
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={["/?q=camisas"]}>
-          <Home />
-        </MemoryRouter>
-      </QueryClientProvider>
-    );
-
-    // expect(mockedAxios).toHaveBeenCalledWith({
-    //   method: "get",
-    //   baseURL: "http://localhost:5000",
-    //   url: "/search",
-    //   params: { offset: 0, q: "camisas" },
-    // });
+    expect(getByTestId("loading")).toBeInTheDocument();
   });
 
   it("should filter all products", () => {

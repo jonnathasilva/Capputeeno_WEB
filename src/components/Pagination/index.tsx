@@ -11,13 +11,13 @@ interface Item {
 
 interface Product {
   currentItens: Item[] | undefined;
-  page: number | undefined;
+  page: number | any;
 }
 
 export const Pagination: React.FC<Product> = ({ currentItens, page }) => {
   return (
     <section className="flex flex-col space-y-6">
-      <ButtonPagination page={page} />
+      {page > 1 ? <ButtonPagination page={page} /> : ""}
 
       <div className="flex flex-wrap">
         {currentItens?.map((product) => (
@@ -44,7 +44,7 @@ export const Pagination: React.FC<Product> = ({ currentItens, page }) => {
         ))}
       </div>
 
-      <ButtonPagination page={page} />
+      {page > 1 ? <ButtonPagination page={page} /> : ""}
     </section>
   );
 };

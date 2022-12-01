@@ -2,7 +2,6 @@ import { describe, vi, expect, afterEach, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 
 import { Product } from "./index";
 
@@ -31,6 +30,25 @@ describe("Page Product", () => {
   it("Renders without crashing", () => {
     const queryClient = new QueryClient();
 
+    const { getByTestId } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/product/1"]}>
+          <Product />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    expect(getByTestId("loading")).toBeInTheDocument();
+  });
+
+  it("should show title", async () => {
+    mockedUseCardAll.mockImplementation(() => ({
+      isLoading: false,
+      data: mockData,
+    }));
+
+    const queryClient = new QueryClient();
+
     const { getByText } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter initialEntries={["/product/1"]}>
@@ -39,10 +57,10 @@ describe("Page Product", () => {
       </QueryClientProvider>
     );
 
-    expect(getByText("Carregando...")).toBeInTheDocument();
+    expect(getByText("camisa")).toBeInTheDocument();
   });
 
-  it("should mock getById", () => {
+  it("should show price", async () => {
     mockedUseCardAll.mockImplementation(() => ({
       isLoading: false,
       data: mockData,
@@ -50,7 +68,7 @@ describe("Page Product", () => {
 
     const queryClient = new QueryClient();
 
-    render(
+    const { getByText } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter initialEntries={["/product/1"]}>
           <Product />
@@ -58,14 +76,29 @@ describe("Page Product", () => {
       </QueryClientProvider>
     );
 
-    // expect(mockedAxios).toHaveBeenCalledWith({
-    //   method: "get",
-    //   baseURL: "http://localhost:5000",
-    //   url: "/product/undefined",
-    // });
+    expect(getByText("R$ 350")).toBeInTheDocument();
   });
 
-  it("should mock addCart", async () => {
+  it("should show description", async () => {
+    mockedUseCardAll.mockImplementation(() => ({
+      isLoading: false,
+      data: mockData,
+    }));
+
+    const queryClient = new QueryClient();
+
+    const { getByText } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/product/1"]}>
+          <Product />
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+
+    expect(getByText("Boa camisa")).toBeInTheDocument();
+  });
+
+  it("should show img", async () => {
     mockedUseCardAll.mockImplementation(() => ({
       isLoading: false,
       data: mockData,
@@ -81,13 +114,10 @@ describe("Page Product", () => {
       </QueryClientProvider>
     );
 
-    await userEvent.click(getByRole("button"));
-
-    // expect(mockedAxios).toHaveBeenCalledWith({
-    //   method: "post",
-    //   baseURL: "http://localhost:5000",
-    //   url: "/new",
-    //   data: { id: "1" },
-    // });
+    expect(getByRole("img")).toHaveAttribute("alt", "camisa");
+    expect(getByRole("img")).toHaveAttribute(
+      "src",
+      "https://localhost:3000/image"
+    );
   });
 });

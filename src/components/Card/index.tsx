@@ -19,7 +19,7 @@ export const Card: React.FC<Props> = ({ item }) => {
 
   return (
     <div className="flex">
-      <div className="w-60 h-52 ">
+      <div className="w-32 h-52  md:w-60 ">
         <img
           src={item.img}
           alt={item.title}
@@ -27,7 +27,7 @@ export const Card: React.FC<Props> = ({ item }) => {
         />
       </div>
 
-      <div className="flex-1 p-5 bg-white-500 rounded-tr-lg rounded-br-lg space-y-6 ">
+      <div className="flex-1 h-52 overflow-auto p-5 bg-white-500 rounded-tr-lg rounded-br-lg space-y-6 ">
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <h3 className="text-xl font-light text-black-400">{item.title}</h3>

@@ -25,7 +25,7 @@ export const Cart = () => {
   }
 
   return (
-    <main className="flex flex-col px-4 container mx-auto h-4/5 mt-10 md:px-0 md:space-x-8 md:flex-row">
+    <main className="flex flex-col px-4 container mx-auto h-4/5 mt-10 space-y-8 md:space-y-0 md:px-0 md:space-x-8 md:flex-row">
       <section className="flex-1 md:flex-[2] space-y-6">
         <div className="w-24 h-7 flex justify-between items-center">
           <Link to="/">
