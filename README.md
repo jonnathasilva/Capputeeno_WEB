@@ -4,6 +4,8 @@
 
 O objetivo era criar um e-commerce
 
+https://user-images.githubusercontent.com/81498277/205150073-e993b93e-6de8-4f0e-b084-6c601d184993.mp4
+
 ## Pré-requisitos
 
 ⚠️ [node](https://nodejs.org/en/)
