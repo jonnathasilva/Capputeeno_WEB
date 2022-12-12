@@ -14,8 +14,14 @@ interface Props {
   item: Item;
 }
 
+const Loading = () => (
+  <div data-testid="loading">
+    <div className="border-t-transparent border-solid animate-spin rounded-full border-red border-4 h-5 w-5"></div>
+  </div>
+);
+
 export const Card: React.FC<Props> = ({ item }) => {
-  const { mutate } = useDelete();
+  const { mutate, isLoading } = useDelete();
 
   return (
     <div className="flex">
@@ -32,10 +38,14 @@ export const Card: React.FC<Props> = ({ item }) => {
           <div className="flex justify-between items-center">
             <h3 className="text-xl font-light text-black-400">{item.title}</h3>
 
-            <BsTrash
-              className="text-red cursor-pointer"
-              onClick={() => mutate(item._id)}
-            />
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <BsTrash
+                className="text-red cursor-pointer"
+                onClick={() => mutate(item._id)}
+              />
+            )}
           </div>
         </div>
 
